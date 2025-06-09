@@ -1,3 +1,5 @@
+declare const Swal: any;
+
 (() => {
   enum ClasesInput {
     invalid = "invalid__input",
@@ -18,6 +20,17 @@
     elemento.classList.add(claseAgregar);
   };
 
+  const limpiarClasesInput = (
+    listaInputs: HTMLInputElement[],
+    textarea: HTMLTextAreaElement,
+  ) => {
+    listaInputs.forEach((input) => {
+      input.classList.remove(ClasesInput.invalid, ClasesInput.valid);
+    });
+
+    textarea.classList.remove(ClasesInput.invalid, ClasesInput.valid);
+  };
+
   const inputCollection: HTMLCollectionOf<HTMLInputElement> =
     document.getElementsByTagName("input");
   const inputList: HTMLInputElement[] = Array.from(inputCollection);
@@ -26,31 +39,42 @@
   const formulario = document.getElementById("formulario") as HTMLFormElement;
 
   inputList.forEach((input) => {
-    input.addEventListener("blur", () => {
-      const divMensaje = input.parentElement?.lastElementChild;
+    const divMensaje = input.parentElement?.lastElementChild;
+
+    const validarInput = () => {
+      if (input.type === "tel") {
+        let valor = inputTel.value.replace(/\D/g, "").slice(0, 8);
+
+        if (valor.length > 4) {
+          valor = valor.slice(0, 4) + "-" + valor.slice(4);
+        }
+
+        inputTel.value = valor;
+      }
 
       if (!input.checkValidity()) {
         controlarClasses(input, ClasesInput.invalid, ClasesInput.valid);
-
         controlarClasses(
           divMensaje!,
           ClasesMensaje.visible,
           ClasesMensaje.oculto,
         );
-        return;
+      } else {
+        controlarClasses(
+          divMensaje!,
+          ClasesMensaje.oculto,
+          ClasesMensaje.visible,
+        );
+        controlarClasses(input, ClasesInput.valid, ClasesInput.invalid);
       }
+    };
 
-      controlarClasses(
-        divMensaje!,
-        ClasesMensaje.oculto,
-        ClasesMensaje.visible,
-      );
+    input.addEventListener("input", validarInput);
 
-      controlarClasses(input, ClasesInput.valid, ClasesInput.invalid);
-    });
+    input.addEventListener("blur", validarInput);
   });
 
-  textarea.addEventListener("blur", () => {
+  textarea.addEventListener("input", () => {
     const divMensaje = textarea.parentElement?.lastElementChild;
 
     if (!textarea.checkValidity()) {
@@ -68,17 +92,21 @@
     controlarClasses(divMensaje!, ClasesMensaje.oculto, ClasesMensaje.visible);
   });
 
-  inputTel.addEventListener("input", () => {
-    let valor = inputTel.value.replace(/\D/g, "").slice(0, 8);
+  formulario.addEventListener("submit", (event) => {
+    event.preventDefault();
+    formulario.reset();
+    limpiarClasesInput(inputList, textarea);
 
-    if (valor.length > 4) {
-      valor = valor.slice(0, 4) + "-" + valor.slice(4);
-    }
-
-    inputTel.value = valor;
+    Swal.fire({
+      icon: "success",
+      titleText: "Formulario enviado con éxito",
+      text: "Gracias por completar el formulario, pronto nos pondremos en contacto contigo",
+      confirmButtonColor: "#f4623a",
+      confirmButtonText: "Entendido",
+    });
   });
 
-  formulario.addEventListener("change", () => {
+  formulario.addEventListener("input", () => {
     const botonEnviar = document.getElementById(
       "botonEnviar",
     ) as HTMLButtonElement;
