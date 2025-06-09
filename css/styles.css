@@ -123,3 +123,35 @@
 .section__container {
   padding: 8rem 0;
 }
+
+/* Formularios */
+
+.form--textarea {
+  height: 10rem !important;
+}
+
+.invalid__input {
+  border: 1px solid red;
+}
+
+.valid__input {
+  border: 1px solid green;
+}
+
+.mensaje__error {
+  color: red;
+  font-weight: 300;
+}
+
+.mensaje__oculto {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.mensaje__visible {
+  opacity: 1;
+  max-height: 100px;
+  transition: opacity 0.5s ease, max-height 0.3s ease;
+}

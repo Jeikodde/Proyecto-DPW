@@ -34,7 +34,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="#about">Acerca de nosotros</a>
@@ -224,55 +224,72 @@
           </div>
           <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
             <div class="col-lg-6">
-              <form id="contactForm">
+              <form id="formulario">
                 <div class="form-floating mb-3">
                   <input
-                    class="form-control"
-                    id="name"
+                    class="form-control mb-1"
+                    id="nombre"
                     type="text"
-                    placeholder="Enter your name..."
+                    placeholder="Ingresa tu nombre..."
+                    minlength="3"
+                    required
                   />
-                  <label for="name">Full name</label>
+                  <label for="nombre">Nombre completo</label>
+                  <div class="mensaje__error mensaje__oculto">
+                    Nombre es un campo requerido
+                  </div>
                 </div>
 
                 <div class="form-floating mb-3">
                   <input
-                    class="form-control"
-                    id="email"
+                    class="form-control mb-1"
+                    id="correo"
                     type="email"
+                    pattern="^[a-zA-Z0-9.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$"
                     placeholder="name@example.com"
+                    required
                   />
-                  <label for="email">Email address</label>
+                  <label for="correo">Correo electrónico</label>
+                  <div class="mensaje__error mensaje__oculto">
+                    Correo es un campo requerido (name@example.com)
+                  </div>
                 </div>
 
                 <div class="form-floating mb-3">
                   <input
-                    class="form-control"
-                    id="phone"
+                    class="form-control mb-1"
+                    id="telefono"
                     type="tel"
-                    placeholder="(123) 456-7890"
+                    pattern="\d{4}-\d{4}"
+                    required
                   />
-                  <label for="phone">Phone number</label>
+                  <label for="telefono">Número de teléfono</label>
+                  <div class="mensaje__error mensaje__oculto">
+                    Número de teléfono es un campo requerido
+                  </div>
                 </div>
 
                 <div class="form-floating mb-3">
                   <textarea
-                    class="form-control"
-                    id="message"
+                    class="form-control mb-1 form--textarea"
+                    id="mensaje"
                     type="text"
-                    placeholder="Enter your message here..."
-                    style="height: 10rem"
+                    placeholder="Escribe tu mensaje aquí..."
+                    required
                   ></textarea>
-                  <label for="message">Message</label>
+                  <label for="mensaje">Mensaje</label>
+                  <div class="mensaje__error mensaje__oculto">
+                    Mensaje es un campo requerido
+                  </div>
                 </div>
 
                 <div class="d-grid">
                   <button
                     class="btn btn-primary btn-xl disabled"
-                    id="submitButton"
+                    id="botonEnviar"
                     type="submit"
                   >
-                    Submit
+                    Enviar
                   </button>
                 </div>
               </form>
@@ -296,5 +313,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="js/script.js"></script>
+    <script src="dist/formulario.js"></script>
   </body>
 </html>
