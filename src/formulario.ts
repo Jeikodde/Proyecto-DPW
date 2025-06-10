@@ -31,6 +31,24 @@ declare const Swal: any;
     textarea.classList.remove(ClasesInput.invalid, ClasesInput.valid);
   };
 
+  const validarTextarea = (textareaElement: HTMLTextAreaElement) => {
+    const divMensaje = textareaElement.parentElement?.lastElementChild;
+
+    if (!textareaElement.checkValidity()) {
+      controlarClasses(textareaElement, ClasesInput.invalid, ClasesInput.valid);
+
+      controlarClasses(
+        divMensaje!,
+        ClasesMensaje.visible,
+        ClasesMensaje.oculto,
+      );
+      return;
+    }
+    controlarClasses(textareaElement, ClasesInput.valid, ClasesInput.invalid);
+
+    controlarClasses(divMensaje!, ClasesMensaje.oculto, ClasesMensaje.visible);
+  };
+
   const inputCollection: HTMLCollectionOf<HTMLInputElement> =
     document.getElementsByTagName("input");
   const inputList: HTMLInputElement[] = Array.from(inputCollection);
@@ -74,22 +92,12 @@ declare const Swal: any;
     input.addEventListener("blur", validarInput);
   });
 
+  textarea.addEventListener("blur", () => {
+    validarTextarea(textarea);
+  });
+
   textarea.addEventListener("input", () => {
-    const divMensaje = textarea.parentElement?.lastElementChild;
-
-    if (!textarea.checkValidity()) {
-      controlarClasses(textarea, ClasesInput.invalid, ClasesInput.valid);
-
-      controlarClasses(
-        divMensaje!,
-        ClasesMensaje.visible,
-        ClasesMensaje.oculto,
-      );
-      return;
-    }
-    controlarClasses(textarea, ClasesInput.valid, ClasesInput.invalid);
-
-    controlarClasses(divMensaje!, ClasesMensaje.oculto, ClasesMensaje.visible);
+    validarTextarea(textarea);
   });
 
   formulario.addEventListener("submit", (event) => {

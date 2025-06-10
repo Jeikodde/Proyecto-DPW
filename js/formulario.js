@@ -20,6 +20,17 @@
         });
         textarea.classList.remove(ClasesInput.invalid, ClasesInput.valid);
     };
+    const validarTextarea = (textareaElement) => {
+        var _a;
+        const divMensaje = (_a = textareaElement.parentElement) === null || _a === void 0 ? void 0 : _a.lastElementChild;
+        if (!textareaElement.checkValidity()) {
+            controlarClasses(textareaElement, ClasesInput.invalid, ClasesInput.valid);
+            controlarClasses(divMensaje, ClasesMensaje.visible, ClasesMensaje.oculto);
+            return;
+        }
+        controlarClasses(textareaElement, ClasesInput.valid, ClasesInput.invalid);
+        controlarClasses(divMensaje, ClasesMensaje.oculto, ClasesMensaje.visible);
+    };
     const inputCollection = document.getElementsByTagName("input");
     const inputList = Array.from(inputCollection);
     const textarea = document.getElementById("mensaje");
@@ -48,16 +59,11 @@
         input.addEventListener("input", validarInput);
         input.addEventListener("blur", validarInput);
     });
+    textarea.addEventListener("blur", () => {
+        validarTextarea(textarea);
+    });
     textarea.addEventListener("input", () => {
-        var _a;
-        const divMensaje = (_a = textarea.parentElement) === null || _a === void 0 ? void 0 : _a.lastElementChild;
-        if (!textarea.checkValidity()) {
-            controlarClasses(textarea, ClasesInput.invalid, ClasesInput.valid);
-            controlarClasses(divMensaje, ClasesMensaje.visible, ClasesMensaje.oculto);
-            return;
-        }
-        controlarClasses(textarea, ClasesInput.valid, ClasesInput.invalid);
-        controlarClasses(divMensaje, ClasesMensaje.oculto, ClasesMensaje.visible);
+        validarTextarea(textarea);
     });
     formulario.addEventListener("submit", (event) => {
         event.preventDefault();
