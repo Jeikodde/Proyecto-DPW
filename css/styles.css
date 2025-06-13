@@ -65,8 +65,6 @@
 
 .nav-link:hover {
   color: #fff;
-  position: absolute;
-  left: -100px;
 }
 
 .active {
